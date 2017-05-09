@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spinner_list_item_array">
+        <item>250</item>
+        <item>350</item>
+        <item>400</item>
+        <item>3000</item>
+    </string-array>
+
+
+    <string name="path_arc">arc</string>
+    <string name="path_none">none</string>
+
+    <string-array name="spinner_list_path">
+        <item>@string/path_arc</item>
+        <item>@string/path_none</item>
+    </string-array>
+</resources>
