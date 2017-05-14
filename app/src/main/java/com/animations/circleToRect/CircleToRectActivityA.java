@@ -1,4 +1,4 @@
-package com.comparinginteraction.circleToRect;
+package com.animations.circleToRect;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,9 +10,9 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import com.comparinginteraction.R;
+import com.animations.R;
 
-import static com.comparinginteraction.R.id.durationSpinner;
+import static com.animations.R.id.durationSpinner;
 
 
 public class CircleToRectActivityA extends AppCompatActivity {

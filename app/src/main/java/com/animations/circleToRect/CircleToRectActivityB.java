@@ -1,4 +1,4 @@
-package com.comparinginteraction.circleToRect;
+package com.animations.circleToRect;
 
 import android.animation.Animator;
 import android.os.Bundle;
@@ -13,8 +13,8 @@ import android.view.View;
 
 import com.circleToRect.ChangeBoundsToCenter;
 import com.animationutils.MAnimationUtils;
-import com.comparinginteraction.BaseTransitionListener;
-import com.comparinginteraction.R;
+import com.animationutils.BaseTransitionListener;
+import com.animations.R;
 
 
 public class CircleToRectActivityB extends AppCompatActivity {
