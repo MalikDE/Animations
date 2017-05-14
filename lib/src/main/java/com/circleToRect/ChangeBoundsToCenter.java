@@ -1,4 +1,4 @@
-package com.animationutils;
+package com.circleToRect;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;
@@ -6,13 +6,18 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.transition.ChangeBounds;
+import android.transition.Transition;
 import android.transition.TransitionValues;
 import android.util.Log;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 
 @RequiresApi(api = Build.VERSION_CODES.KITKAT)
 public class ChangeBoundsToCenter extends ChangeBounds {
     private static final String PROPNAME_BOUNDS = "android:changeBounds:bounds";
+
+    private long mDuration = -1;
 
     @Override
     public Animator createAnimator(ViewGroup sceneRoot, final TransitionValues startValues, final TransitionValues endValues) {
@@ -50,8 +55,12 @@ public class ChangeBoundsToCenter extends ChangeBounds {
         endValues.values.put(PROPNAME_BOUNDS, tmpEndRect);
         //Create the first animator
         Animator first = super.createAnimator(sceneRoot, startValues, endValues);
-
         AnimatorSet firstSet = new AnimatorSet();
+        firstSet.setInterpolator(new AccelerateInterpolator());
+        if (mDuration > 0) {
+            firstSet.setDuration(2 * mDuration / 3);
+        }
+
         firstSet.playTogether(first, isExpanding ? createCircleToCircleAnimator(startValues, endValues) : createCircleToRectAnimator(startValues, endValues));
 
 
@@ -63,6 +72,11 @@ public class ChangeBoundsToCenter extends ChangeBounds {
         //Create a second animator
         Animator second = super.createAnimator(sceneRoot, startValues, endValues);
         AnimatorSet secondSet = new AnimatorSet();
+        secondSet.setInterpolator(new DecelerateInterpolator());
+        if (mDuration > 0) {
+            secondSet.setDuration(mDuration / 3);
+        }
+
         secondSet.playTogether(second, isExpanding ? createCircleToRectAnimator(startValues, endValues) : createCircleToCircleAnimator(startValues, endValues));
 
         AnimatorSet set = new AnimatorSet();
@@ -70,12 +84,18 @@ public class ChangeBoundsToCenter extends ChangeBounds {
         return set;
     }
 
+    @Override
+    public Transition setDuration(long duration) {
+        mDuration = duration;
+        return this;
+    }
+
     private Animator createCircleToCircleAnimator(final TransitionValues startValues, final TransitionValues endValues) {
-        if (!(startValues.view instanceof CircleRectView)) {
-            Log.w(ChangeBoundsToCenter.class.getSimpleName(), "transition view should be CircleRectView");
+        if (!(startValues.view instanceof CircleViewAnimatorHandler)) {
+            Log.w(ChangeBoundsToCenter.class.getSimpleName(), "transition view should implement CircleViewAnimatorHandler");
             return null;
         }
-        CircleRectView view = (CircleRectView) (startValues.view);
+        CircleViewAnimatorHandler view = (CircleViewAnimatorHandler) (startValues.view);
 
         Rect startRect = (Rect) startValues.values.get(PROPNAME_BOUNDS);
         final Rect endRect = (Rect) endValues.values.get(PROPNAME_BOUNDS);
@@ -84,11 +104,11 @@ public class ChangeBoundsToCenter extends ChangeBounds {
     }
 
     private Animator createCircleToRectAnimator(final TransitionValues startValues, final TransitionValues endValues) {
-        if (!(startValues.view instanceof CircleRectView)) {
-            Log.w(ChangeBoundsToCenter.class.getSimpleName(), "transition view should be CircleRectView");
+        if (!(startValues.view instanceof CircleViewAnimatorHandler)) {
+            Log.w(ChangeBoundsToCenter.class.getSimpleName(), "transition view should implement CircleViewAnimatorHandler");
             return null;
         }
-        CircleRectView view = (CircleRectView) (startValues.view);
+        CircleViewAnimatorHandler view = (CircleViewAnimatorHandler) (startValues.view);
 
         Rect startRect = (Rect) startValues.values.get(PROPNAME_BOUNDS);
         final Rect endRect = (Rect) endValues.values.get(PROPNAME_BOUNDS);

@@ -7,12 +7,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
+
+import static com.comparinginteraction.R.id.durationSpinner;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    private int mDuration;
     private boolean hasArcMotion;
 
     @Override
@@ -20,25 +22,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Spinner durationSpinner = (Spinner) findViewById(R.id.durationSpinner);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.spinner_list_item_array));
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        durationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String item = (String) parent.getAdapter().getItem(position);
-                if (item != null) {
-                    mDuration = Integer.valueOf(item);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        durationSpinner.setAdapter(adapter);
-
+        final EditText durationEditText = (EditText) findViewById(durationSpinner);
 
         Spinner pathSpinner = (Spinner) findViewById(R.id.pathSpinner);
         ArrayAdapter<String> pathAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.spinner_list_path));
@@ -62,8 +46,11 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
-                intent.putExtra("duration", mDuration);
+                Intent intent = new Intent(MainActivity.this, CircleToRectActivity.class);
+                int duration = Integer.valueOf(durationEditText.getText().toString());
+                if (duration > 0) {
+                    intent.putExtra("duration", duration);
+                }
                 intent.putExtra("arcMotion", hasArcMotion);
 
                 ActivityOptionsCompat options = ActivityOptionsCompat.

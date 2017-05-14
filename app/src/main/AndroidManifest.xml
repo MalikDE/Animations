@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SecondActivity"/>
+            android:name=".CircleToRectActivity"/>
     </application>
 
 </manifest>

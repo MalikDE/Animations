@@ -1,4 +1,4 @@
-package com.animationutils;
+package com.circleToRect;
 
 import android.animation.Animator;
 import android.animation.RectEvaluator;
@@ -14,7 +14,8 @@ import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 
 
-public class CircleRectView extends android.support.v7.widget.AppCompatImageView {
+public class CircleRectView extends android.support.v7.widget.AppCompatImageView
+        implements CircleViewAnimatorHandler {
     private float cornerRadius = 0;
 
     private RectF bitmapRect;
@@ -28,6 +29,7 @@ public class CircleRectView extends android.support.v7.widget.AppCompatImageView
         super(context, attrs, defStyleAttr);
     }
 
+    @Override
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     public Animator createCircleToRectAnimator(Rect fromRect, Rect toRect) {
         final int maxStart = Math.max(fromRect.width(), fromRect.height());
@@ -45,7 +47,7 @@ public class CircleRectView extends android.support.v7.widget.AppCompatImageView
         return rectAnimator;
     }
 
-
+    @Override
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     public Animator createCircleToCircleAnimator(Rect fromRect, Rect toRect) {
         final ValueAnimator rectAnimator = ValueAnimator.ofObject(new RectEvaluator(), fromRect, toRect);

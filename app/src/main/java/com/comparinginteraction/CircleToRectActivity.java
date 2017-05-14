@@ -1,8 +1,6 @@
 package com.comparinginteraction;
 
 import android.animation.Animator;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,11 +11,11 @@ import android.transition.ArcMotion;
 import android.transition.Transition;
 import android.view.View;
 
-import com.animationutils.ChangeBoundsToCenter;
+import com.circleToRect.ChangeBoundsToCenter;
 import com.animationutils.MAnimationUtils;
 
 
-public class SecondActivity extends AppCompatActivity {
+public class CircleToRectActivity extends AppCompatActivity {
 
     private static final int MED_DURATION = 350;
     private static final int LONG_DURATION = 400;
@@ -29,14 +27,12 @@ public class SecondActivity extends AppCompatActivity {
     View mNameTextView;
     View mContentImageView;
 
-    private int mDuration;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sec);
 
-        mDuration = getIntent().getIntExtra("duration", 200);
+        int duration = getIntent().getIntExtra("duration", 400);
         ChangeBoundsToCenter boundsToCenter = new ChangeBoundsToCenter();
 
         if (getIntent().getBooleanExtra("arcMotion", false)) {
@@ -46,9 +42,7 @@ public class SecondActivity extends AppCompatActivity {
             arcMotion.setMinimumVerticalAngle(45);
             boundsToCenter.setPathMotion(arcMotion);
         }
-        boundsToCenter.setDuration(mDuration);
-        boundsToCenter.setInterpolator(new FastOutSlowInInterpolator());
-
+        boundsToCenter.setDuration(duration);
         getWindow().setSharedElementEnterTransition(boundsToCenter);
 
         mHeaderView = findViewById(R.id.headerview);
@@ -57,7 +51,9 @@ public class SecondActivity extends AppCompatActivity {
         mContentImageView = findViewById(R.id.imageView5);
         mRootView = findViewById(R.id.rootview);
 
+        //initialize starting values (before animation)
         initDefaultValues();
+
         boundsToCenter.addListener(new BaseTransitionListener() {
             @Override
             public void onTransitionEnd(@NonNull Transition transition) {
@@ -66,23 +62,7 @@ public class SecondActivity extends AppCompatActivity {
             }
         });
 
-//        mRootView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-//            @Override
-//            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-//                mRootView.removeOnLayoutChangeListener(this);
-//                Rect rect = new Rect();
-//                mRootView.getLocalVisibleRect(rect);
-//                rect.bottom = 0;
-//                mRootView.setClipBounds(rect);
-//
-//                Animator animator = MAnimationUtils.createSlidingReveal(
-//                        mRootView, MAnimationUtils.Position.TOP, 0);
-//                animator.setDuration(MED_DURATION)
-//                        .setStartDelay(500);
-//                animator.setInterpolator(new FastOutSlowInInterpolator());
-//                animator.start();
-//            }
-//        });
+        //TODO translate all the container (Card) and not only the content
     }
 
     private void initDefaultValues() {
@@ -96,6 +76,7 @@ public class SecondActivity extends AppCompatActivity {
 
     }
 
+    //Animate avatar, name and content
     private void animateContent() {
         mAvatarView.animate()
                 .scaleXBy(1f).scaleY(1f)
@@ -109,12 +90,9 @@ public class SecondActivity extends AppCompatActivity {
                 .setInterpolator(new FastOutSlowInInterpolator())
                 .start();
 
-        //TODO : play together with alpha
         Animator animator = MAnimationUtils.createSlidingReveal(mContentImageView, MAnimationUtils.Position.TOP, 0/*mContentImageView.getMeasuredHeight() / 4*/);
         animator.setDuration(MED_DURATION).setInterpolator(new FastOutSlowInInterpolator());
         animator.start();
-
-        //        Animator alphaAnimator = ObjectAnimator.ofFloat(mContentImageView, View.ALPHA, 0, 1);
 
         mContentImageView.animate()
                 .alpha(1)
