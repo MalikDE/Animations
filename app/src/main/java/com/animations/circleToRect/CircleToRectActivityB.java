@@ -1,4 +1,4 @@
-package com.comparinginteraction;
+package com.comparinginteraction.circleToRect;
 
 import android.animation.Animator;
 import android.os.Bundle;
@@ -13,9 +13,11 @@ import android.view.View;
 
 import com.circleToRect.ChangeBoundsToCenter;
 import com.animationutils.MAnimationUtils;
+import com.comparinginteraction.BaseTransitionListener;
+import com.comparinginteraction.R;
 
 
-public class CircleToRectActivity extends AppCompatActivity {
+public class CircleToRectActivityB extends AppCompatActivity {
 
     private static final int MED_DURATION = 350;
     private static final int LONG_DURATION = 400;
@@ -30,7 +32,7 @@ public class CircleToRectActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sec);
+        setContentView(R.layout.activity_circle_to_rect_b);
 
         int duration = getIntent().getIntExtra("duration", 400);
         ChangeBoundsToCenter boundsToCenter = new ChangeBoundsToCenter();

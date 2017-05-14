@@ -1,4 +1,4 @@
-package com.comparinginteraction;
+package com.animationutils;
 
 import android.support.annotation.NonNull;
 import android.transition.Transition;

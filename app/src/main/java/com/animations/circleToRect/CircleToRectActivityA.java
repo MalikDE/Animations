@@ -1,4 +1,4 @@
-package com.comparinginteraction;
+package com.comparinginteraction.circleToRect;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,17 +10,19 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.comparinginteraction.R;
+
 import static com.comparinginteraction.R.id.durationSpinner;
 
 
-public class MainActivity extends AppCompatActivity {
+public class CircleToRectActivityA extends AppCompatActivity {
 
     private boolean hasArcMotion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_circle_to_rect_a);
 
         final EditText durationEditText = (EditText) findViewById(durationSpinner);
 
@@ -46,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, CircleToRectActivity.class);
+                Intent intent = new Intent(CircleToRectActivityA.this, CircleToRectActivityB.class);
                 int duration = Integer.valueOf(durationEditText.getText().toString());
                 if (duration > 0) {
                     intent.putExtra("duration", duration);
@@ -54,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("arcMotion", hasArcMotion);
 
                 ActivityOptionsCompat options = ActivityOptionsCompat.
-                        makeSceneTransitionAnimation(MainActivity.this, fab, "shared");
+                        makeSceneTransitionAnimation(CircleToRectActivityA.this, fab, "shared");
                 startActivity(intent, options.toBundle());
             }
         });
