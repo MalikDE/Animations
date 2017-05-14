@@ -11,4 +11,4 @@ The custom transition inherit from the[ChangeBounds][changebounds-link]android t
 
 [circle-to-rect-anim-link]: https://material.uplabs.com/posts/bitshares-munich-carbon-comparing-interaction-pa
 [changebounds-link]: https://developer.android.com/reference/android/transition/ChangeBounds.html
-[circle-to-rect]: https://raw.githubusercontent.com/MalikDE/Animations/master/docs/img/circle_to_rect.gif
+[circle-to-rect]: https://raw.githubusercontent.com/MalikDE/Animations/master/doc/img/circle_to_rect.gif
